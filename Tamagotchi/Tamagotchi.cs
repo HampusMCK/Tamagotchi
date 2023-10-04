@@ -123,9 +123,13 @@
         Console.Clear();
         int win;
         int ExScore = 5;
-        if (dressed.Count > 0)
+        if (dressed.Count == 1)
         {
-            ExScore = dressed[0].ExhibitionScore + dressed[1].ExhibitionScore;
+            ExScore += dressed[0].ExhibitionScore;
+        }
+        if (dressed.Count > 1)
+        {
+            ExScore += dressed[0].ExhibitionScore + dressed[1].ExhibitionScore;
         }
         int diff;
         Console.WriteLine($"At What Grade Would You Like to Compete In? 1 (Avg. Exh.points: 15, 1st price: $30), 2 (AVg. Exh.points: 30, 1st price: $50), or 3 (Avg. Exh.points: 60, 1st price: $100)");
@@ -135,9 +139,10 @@
         if (DiC == 1)
         {
             e.AddOps1();
-            win = gen.Next(151);
-            win += ExScore;
-            if (win >= 45)
+            diff = e.op1[0].ExP + e.op1[1].ExP + e.op1[0].ExP + ExScore;
+            win = gen.Next(diff);
+            win -= ExScore;
+            if (win <= ExScore)
             {
                 Console.WriteLine("Congratulations! You won $30");
                 money += 30;
@@ -151,9 +156,10 @@
         else if (DiC == 2)
         {
             e.AddOps2();
-            win = gen.Next(151);
-            win += ExScore;
-            if (win >= 60)
+            diff = e.op2[0].ExP + e.op2[1].ExP + e.op2[0].ExP + ExScore;
+            win = gen.Next(diff);
+            win -= ExScore;
+            if (win <= ExScore)
             {
                 Console.WriteLine("Congratulations! You won $50");
                 money += 50;
@@ -167,9 +173,10 @@
         else if (DiC == 3)
         {
             e.AddOps3();
-            win = gen.Next(151);
-            win += ExScore;
-            if (win >= 90)
+            diff = e.op3[0].ExP + e.op3[1].ExP + e.op3[0].ExP + ExScore;
+            win = gen.Next(diff);
+            win -= ExScore;
+            if (win <= ExScore)
             {
                 Console.WriteLine("Congratulations! You won $100");
                 money += 100;

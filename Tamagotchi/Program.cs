@@ -14,7 +14,7 @@ eventList.Add(kid.Exhibition);
 Console.WriteLine("Name Your Child!");
 kid.name = Console.ReadLine();
 ica.addItems();
-while (true)
+while (kid.isAlive)
 {
 
     while (kid.isAlive && isinStore == false)
@@ -34,9 +34,9 @@ while (true)
                 eventList[i]();
             }
         }
+        kid.Tick();
         kid.PrintStats();
         Console.ReadLine();
-        kid.Tick();
     }
 
     while (kid.isAlive && isinStore)
@@ -57,6 +57,9 @@ while (true)
         }
     }
 }
+
+Console.WriteLine("Your Tamagotchi Died");
+Console.ReadLine();
 
 
 
