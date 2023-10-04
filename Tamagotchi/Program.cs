@@ -1,4 +1,6 @@
-﻿Tamagotchi kid = new();
+﻿Console.Title = "TamaGucci";
+
+Tamagotchi kid = new();
 store ica = new();
 bool isinStore = false;
 List<Action> eventList = new()
