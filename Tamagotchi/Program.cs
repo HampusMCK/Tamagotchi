@@ -4,7 +4,7 @@ Tamagotchi kid = new();
 store ica = new();
 bool isinStore = false;
 List<Action> eventList = new()
-{
+    {
     kid.Teach,
     kid.Hi,
     kid.Feed,
@@ -12,7 +12,7 @@ List<Action> eventList = new()
     checkInventory,
     kid.DressUp,
     kid.Exhibition
-};
+    };
 
 Console.WriteLine("Name Your TamaGucci!");
 kid.name = Console.ReadLine();
@@ -59,6 +59,7 @@ while (kid.isAlive)
             buyItems();
         }
     }
+
 }
 
 Console.WriteLine($"{kid.name} Died");
