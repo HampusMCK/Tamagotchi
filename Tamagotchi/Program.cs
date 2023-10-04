@@ -59,7 +59,7 @@ while (kid.isAlive)
     }
 }
 
-Console.WriteLine("Your Tamagotchi Died");
+Console.WriteLine($"{kid.name} Died");
 Console.ReadLine();
 
 
