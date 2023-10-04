@@ -3,6 +3,7 @@
     ExOpponents e = new();
     int hunger;
     int boredom;
+    int ExScore = 5;
     public int money = 100;
     List<string> words = new();
     public List<store> ownedFood = new();
@@ -27,6 +28,7 @@
             if (FC == i + 1)
             {
                 hunger -= ownedFood[i].HungerDecrease;
+                ownedFood.RemoveAt(i);
             }
         }
         if (hunger < 0)
@@ -38,12 +40,22 @@
     public void Hi()
     {
         int choise = gen.Next(words.Count);
-        Console.WriteLine(words[choise]);
+        if (words.Count > 0)
+        {
+            Console.WriteLine($"{name} said: {words[choise]}");
+        }
+        else
+        {
+            Console.WriteLine($"{name} doesn't know any words, you have to teach them some!(press enter to continue)");
+            Console.ReadLine();
+            Teach();
+        }
         ReduceBoredom();
     }
 
     public void Teach()
     {
+        Console.Clear();
         Console.WriteLine($"What would you like to teach {name}?");
         string newWord = Console.ReadLine();
         words.Add(newWord);
@@ -53,12 +65,13 @@
 
     public void Tick()
     {
-        boredom += gen.Next(3);
-        hunger += gen.Next(5);
+        boredom += gen.Next(10);
+        hunger += gen.Next(7);
         if (hunger >= 100 || boredom >= 200)
         {
             isAlive = false;
         }
+        PrintStats();
     }
 
     public void PrintStats()
@@ -72,7 +85,7 @@
         {
             aliveTrue = "dead";
         }
-        Console.WriteLine($"Hunger: {hunger}/100, Boredom: {boredom}/200, {name} is {aliveTrue}");
+        Console.WriteLine($"Hunger: {hunger}/100, Boredom: {boredom}/200, you have ${money}, {name} is {aliveTrue}");
     }
 
     public bool GetAlive()
@@ -94,6 +107,7 @@
 
     public void DressUp()
     {
+        Console.Clear();
         Console.WriteLine($"what would you like to dress {name} in? {name} is currently wearing {dressed.Count} items");
         for (int i = 0; i < ownedItems.Count; i++)
         {
@@ -112,27 +126,29 @@
         }
         if (dressed.Count > 2)
         {
+            Console.WriteLine($"{name} is wearing to many things! {dressed[0].ItemName} got taken off! press enter to continue!");
             ownedItems.Add(dressed[0]);
             dressed.RemoveAt(0);
+            Console.ReadLine();
         }
         ReduceBoredom();
+    }
+
+    public void setExScore()
+    {
+        for (int i = 0; i < dressed.Count; i++)
+        {
+            ExScore += dressed[i].ExhibitionScore;
+        }
     }
 
     public void Exhibition()
     {
         Console.Clear();
+        setExScore();
         int win;
-        int ExScore = 5;
-        if (dressed.Count == 1)
-        {
-            ExScore += dressed[0].ExhibitionScore;
-        }
-        if (dressed.Count > 1)
-        {
-            ExScore += dressed[0].ExhibitionScore + dressed[1].ExhibitionScore;
-        }
         int diff;
-        Console.WriteLine($"At What Grade Would You Like to Compete In? 1 (Avg. Exh.points: 15, 1st price: $30), 2 (AVg. Exh.points: 30, 1st price: $50), or 3 (Avg. Exh.points: 60, 1st price: $100)");
+        Console.WriteLine($"At What Grade Would You Like to Compete In? 1 (Avg. Exh.points: 15, 1st price: $30), 2 (AVg. Exh.points: 30, 1st price: $50), or 3 (Avg. Exh.points: 60, 1st price: $100), {name} has {ExScore} in Exh.ponits");
         string DiffChoise = Console.ReadLine();
         int DiC;
         int.TryParse(DiffChoise, out DiC);
@@ -147,9 +163,17 @@
                 Console.WriteLine("Congratulations! You won $30");
                 money += 30;
             }
+            else if (win >= ExScore && win <= ExScore + e.op1[0].ExP)
+            {
+                Console.WriteLine($"You Lost to {e.op1[0].name} );");
+            }
+            else if (win >= ExScore + e.op1[0].ExP && win <= ExScore + e.op1[0].ExP + e.op1[1].ExP)
+            {
+                Console.WriteLine($"You Lost to {e.op1[1].name} );");
+            }
             else
             {
-                Console.WriteLine("You Lost! );");
+                Console.WriteLine($"You Lost to {e.op1[2].name} );");
             }
             e.op1.RemoveRange(0, 3);
         }
@@ -164,9 +188,17 @@
                 Console.WriteLine("Congratulations! You won $50");
                 money += 50;
             }
+            else if (win >= ExScore && win <= ExScore + e.op2[0].ExP)
+            {
+                Console.WriteLine($"You Lost to {e.op2[0].name} );");
+            }
+            else if (win >= ExScore + e.op2[0].ExP && win <= ExScore + e.op2[0].ExP + e.op2[1].ExP)
+            {
+                Console.WriteLine($"You Lost to {e.op2[1].name} );");
+            }
             else
             {
-                Console.WriteLine("You Lost! );");
+                Console.WriteLine($"You Lost to {e.op2[2].name} );");
             }
             e.op2.RemoveRange(0, 3);
         }
@@ -181,9 +213,17 @@
                 Console.WriteLine("Congratulations! You won $100");
                 money += 100;
             }
+            else if (win >= ExScore && win <= ExScore + e.op3[0].ExP)
+            {
+                Console.WriteLine($"You Lost to {e.op3[0].name} );");
+            }
+            else if (win >= ExScore + e.op3[0].ExP && win <= ExScore + e.op3[0].ExP + e.op3[1].ExP)
+            {
+                Console.WriteLine($"You Lost to {e.op3[1].name} );");
+            }
             else
             {
-                Console.WriteLine("You Lost! );");
+                Console.WriteLine($"You Lost to {e.op3[2].name} );");
             }
             e.op3.RemoveRange(0, 3);
         }

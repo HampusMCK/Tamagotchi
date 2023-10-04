@@ -1,17 +1,18 @@
 ﻿Tamagotchi kid = new();
 store ica = new();
 bool isinStore = false;
-List<Action> eventList = new();
+List<Action> eventList = new()
+{
+    kid.Teach,
+    kid.Hi,
+    kid.Feed,
+    GoToStore,
+    checkInventory,
+    kid.DressUp,
+    kid.Exhibition
+};
 
-eventList.Add(kid.Teach);
-eventList.Add(kid.Hi);
-eventList.Add(kid.Feed);
-eventList.Add(GoToStore);
-eventList.Add(checkInventory);
-eventList.Add(kid.DressUp);
-eventList.Add(kid.Exhibition);
-
-Console.WriteLine("Name Your Child!");
+Console.WriteLine("Name Your TamaGucci!");
 kid.name = Console.ReadLine();
 ica.addItems();
 while (kid.isAlive)
@@ -25,7 +26,7 @@ while (kid.isAlive)
         string answer = Console.ReadLine();
         int answerInt;
         int.TryParse(answer, out answerInt);
-
+        Console.Clear();
 
         for (int i = 0; i < eventList.Count; i++)
         {
@@ -35,13 +36,13 @@ while (kid.isAlive)
             }
         }
         kid.Tick();
-        kid.PrintStats();
         Console.ReadLine();
     }
 
     while (kid.isAlive && isinStore)
     {
-        Console.WriteLine("do you want to buy 1. food or 2. Items");
+        Console.Clear();
+        Console.WriteLine("What do you want to buy? 1. Food or 2. Items");
         string StoreChoise = Console.ReadLine();
         if (StoreChoise == "1" || StoreChoise == "food")
         {
@@ -87,6 +88,16 @@ void buyFood()
             else
             {
                 kid.ownedFood.Add(ica.StockItems[i]);
+                Console.WriteLine($"You just bought 1 {ica.StockItems[i]}");
+                Console.WriteLine("would you like to buy something more? Answer y or n");
+                string buyAgain = Console.ReadLine().ToLower();
+                if (buyAgain == "y")
+                {
+                }
+                else
+                {
+                    isinStore = false;
+                }
             }
         }
     }
@@ -98,7 +109,7 @@ void buyItems()
     string buyChoise = Console.ReadLine();
     int BC;
     int.TryParse(buyChoise, out BC);
-    BC += 3;
+    BC += 4;
     for (int i = 0; i < ica.StockItems.Count; i++)
     {
         if (BC == i + 1)
@@ -112,10 +123,20 @@ void buyItems()
             else
             {
                 kid.ownedItems.Add(ica.StockItems[i]);
+                Console.WriteLine($"You just bought 1 {ica.StockItems[i].ItemName}");
+                ica.StockItems.RemoveAt(i);
+                Console.WriteLine("would you like to buy something more? Answer y or n");
+                string buyAgain = Console.ReadLine().ToLower();
+                if (buyAgain == "y")
+                {
+                }
+                else
+                {
+                    isinStore = false;
+                }
             }
         }
     }
-    isinStore = false;
 }
 
 
