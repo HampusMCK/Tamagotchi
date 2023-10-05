@@ -91,7 +91,7 @@ void buyFood()
             else
             {
                 kid.ownedFood.Add(ica.StockItems[i]);
-                Console.WriteLine($"You just bought 1 {ica.StockItems[i]}");
+                Console.WriteLine($"You just bought 1 {ica.StockItems[i].ItemName}");
                 Console.WriteLine("would you like to buy something more? Answer y or n");
                 string buyAgain = Console.ReadLine().ToLower();
                 if (buyAgain == "y")
@@ -104,7 +104,6 @@ void buyFood()
             }
         }
     }
-    isinStore = false;
 }
 
 void buyItems()
@@ -112,7 +111,10 @@ void buyItems()
     string buyChoise = Console.ReadLine();
     int BC;
     int.TryParse(buyChoise, out BC);
-    BC += 4;
+    if (BC > 0)
+    {
+        BC += 4;
+    }
     for (int i = 0; i < ica.StockItems.Count; i++)
     {
         if (BC == i + 1)

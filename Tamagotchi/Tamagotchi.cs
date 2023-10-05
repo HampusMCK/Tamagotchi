@@ -124,18 +124,24 @@
                 ownedItems.RemoveAt(i);
             }
         }
-        if (dressed.Count > 2)
+        if (dressed.Count > 3)
         {
             Console.WriteLine($"{name} is wearing to many things! {dressed[0].ItemName} got taken off! press enter to continue!");
             ownedItems.Add(dressed[0]);
             dressed.RemoveAt(0);
             Console.ReadLine();
         }
+        Console.WriteLine($"{name} is currently wearing:");
+        for (int i = 0; i < dressed.Count; i++)
+        {
+            Console.WriteLine($"{dressed[i].ItemName}, Exh.points {dressed[i].ExhibitionScore}");
+        }
         ReduceBoredom();
     }
 
     public void setExScore()
     {
+        ExScore = 5;
         for (int i = 0; i < dressed.Count; i++)
         {
             ExScore += dressed[i].ExhibitionScore;
